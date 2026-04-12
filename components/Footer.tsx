@@ -1,18 +1,9 @@
-import { SITE } from "../config";
-import styles from "../styles/Layout.module.css";
+import { Footer } from "nextra-theme-docs";
 
-export default function Footer() {
+export default function AppFooter() {
   return (
-    <footer className={styles.footer}>
+    <Footer>
       <span>Maintained by the OpenNext community</span>
-      <div>
-        <a target="_blank" href={SITE.github} rel="noopener noreferrer">
-          GitHub
-        </a>
-        <a target="_blank" href={SITE.discord} rel="noopener noreferrer">
-          Discord
-        </a>
-      </div>
-    </footer>
+    </Footer>
   );
 }
