@@ -59,8 +59,7 @@ The memory queue will send revalidation requests to a page when needed, and offe
   can use it at your own risk!
 </Callout>
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import kvIncrementalCache from "@opennextjs/cloudflare/kv-cache";
 import memoryQueue from "@opennextjs/cloudflare/memory-queue";
@@ -129,8 +128,7 @@ wrangler d1 execute NEXT_CACHE_D1 --command "CREATE TABLE IF NOT EXISTS revalida
 
 In your project's OpenNext config, enable the KV cache and set up a queue. The queue will send a revalidation request to a page when needed, but it will not dedupe requests.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import kvIncrementalCache from "@opennextjs/cloudflare/kv-cache";
 import d1TagCache from "@opennextjs/cloudflare/d1-tag-cache";

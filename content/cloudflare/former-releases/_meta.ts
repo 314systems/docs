@@ -1,4 +1,6 @@
-{
+import type { MetaRecord } from "nextra"
+
+const meta: MetaRecord = {
   "0.6": "Release 0.6",
   "migrate-from-0.5-to-0.6": "",
   "0.5": "Release 0.5",
@@ -8,3 +10,7 @@
   "migrate-from-0.2-to-0.3": "",
   "0.2": "Release 0.2"
 }
+
+
+export default meta
+

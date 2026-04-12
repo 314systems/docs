@@ -1,18 +1,22 @@
+---
+sidebarTitle: Migrate from 0.6 to 1.0.0-beta
+---
+
 import { Callout } from "nextra/components";
 
-### Migrate from 0.6 to 1.0.0-beta
+# Migrate from 0.6 to 1.0.0-beta
 
 The codebase has been refactored with some breaking changes, read-on to update your apps:
 
-#### Name changes
+## Name changes
 
 `DurableObjectQueueHandler` was renamed to `DOQueueHandler`. Durable object bindings should be updated in the wrangler configuration file.
 
-#### Environment variables
+## Environment variables
 
 `NEXT_CACHE_DO_QUEUE_MAX_NUM_REVALIDATIONS` was renamed to `NEXT_CACHE_DO_QUEUE_MAX_RETRIES`.
 
-#### API changes
+## API changes
 
 `D1TagCache` was removed. You should use `D1NextModeTagCache` instead which is more efficient and also based on D1.
 

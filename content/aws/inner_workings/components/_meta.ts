@@ -1,4 +1,6 @@
-{
+import type { MetaRecord } from "nextra"
+
+const meta: MetaRecord = {
   "overview": "Overview",
   "server": "Server",
   "middleware": "Middleware",
@@ -7,3 +9,7 @@
   "warmer": "Warmer",
   "initializer": "Initializer"
 }
+
+
+export default meta
+

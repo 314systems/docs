@@ -1,12 +1,18 @@
+---
+sidebarTitle: Internal plugin system
+---
+
+# Internal plugin system
+
 OpenNext use 3 different esbuild plugins internally to recompile or modify the source code depending on some condition like the next version or the runtime used
 
-#### OpenNext Replacement Plugin
+## OpenNext Replacement Plugin
 
 This plugin is used to replace some code in the source code with some other code.
 
 Here is a very simple example of how to use it:
 
-```typescript
+```ts
 openNextPlugin({
     // The target file to replace code in
     target: /plugins\/default\.js/g,
@@ -36,13 +42,13 @@ openNextPlugin({
   //#endOverride
 ```
 
-#### OpenNext Resolve Plugin
+## OpenNext Resolve Plugin
 
 This plugin is used to avoid having to bundle the whole library in the final bundle. It will replace the dynamic import of the overrides with the one that we want to use.
 
 Here is a very simple example of how to use it:
 
-```typescript
+```ts
 openNextResolvePlugin({
   overrides: {
     wrapper: "node",
@@ -51,13 +57,13 @@ openNextResolvePlugin({
 });
 ```
 
-#### OpenNext Edge Plugin
+## OpenNext Edge Plugin
 
 This plugin is used to properly compile routes or middleware built for the `edge` runtime.
 
 Here is a very simple example of how to use it:
 
-```typescript
+```ts
 openNextEdgePlugin({
   // The path to the .next directory
   nextDir: "next",

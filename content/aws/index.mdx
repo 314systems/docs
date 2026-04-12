@@ -1,17 +1,21 @@
+---
+sidebarTitle: Overview
+asIndexPage: true
+---
+
 import { SITE } from "../../config";
 import { Callout } from "nextra/components";
 import WindowsSupport from "../../shared/WindowsSupport.mdx";
 
+# Next.js on AWS
+
 <Callout>
-This docs is for the V3 of OpenNext. If you are looking for the V2 docs, you can find them [here](/aws/v2).
+  This docs is for the V3 of OpenNext. If you are looking for the V2 docs, you can find them [here](/aws/v2).
 
-If you're migrating from V2 to V3, you can find the migration guide [here](/aws/migration#from-opennext-v2).
-
+  If you're migrating from V2 to V3, you can find the migration guide [here](/aws/migration#from-opennext-v2).
 </Callout>
 
-### AWS
-
----
+## Overview
 
 OpenNext takes the Next.js build output and converts it into packages that can be deployed across a variety of environments.
 Natively OpenNext has support for AWS Lambda, [Cloudflare](/cloudflare), and classic Node.js Server.
@@ -20,13 +24,13 @@ One notable feature of OpenNext is its ability to split the Next.js output, enab
 
 Thanks to this, you could deploy part of your API to ECS, another part to Cloudflare Workers, your SSR routes to another ECS cluster, and your ISR/SSG routes to Lambda.
 
----
+## Maintenance and support
 
 OpenNext AWS is currently maintained by the [SST](https://sst.dev) community; notably, [conico974](https://github.com/conico974) and [khuezy](https://github.com/khuezy).
 
-We need your help keeping it up to date and feature complete. Make sure to [**join us on Discord**](https://discord.gg/opennextjs) and [**star us on GitHub**](https://github.com/opennextjs/opennextjs-aws).
+We need your help keeping it up to date and feature complete. Make sure to join us on [Discord](https://discord.gg/opennextjs) and star us on [GitHub](https://github.com/opennextjs/opennextjs-aws).
 
----
+## Supported features
 
 OpenNext aims to support all Next.js 15 features and is widely deployed in production across multiple platforms.
 
@@ -48,12 +52,8 @@ Some features are work in progress. Please open a [new issue](https://github.com
 - [x] Support for after
 - [x] [Composable Caching](https://nextjs.org/blog/composable-caching) (`'use cache'`)
 
----
-
 <Callout type="info">
   <WindowsSupport />
 </Callout>
-
----
 
 [Get started](/aws/get_started) with deploying your app with OpenNext and your favorite framework.

@@ -6,7 +6,7 @@ import { Callout } from "nextra/components";
 
 To create a new Next.js app, pre-configured to run on Cloudflare using @opennextjs/cloudflare, run:
 
-```
+```sh
 npm create cloudflare@latest -- my-next-app --framework=next --experimental
 ```
 
@@ -24,7 +24,7 @@ npm install --save-dev @opennextjs/cloudflare
 
 Install the [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/) as a devDependency:
 
-```npm
+```sh
 npm install -D wrangler@latest
 ```
 
@@ -103,7 +103,7 @@ In `package.json`:
 
 You no longer need to call `setupDevPlatform()` in your `next.config.mjs` file:
 
-```diff title="next.config.mjs"
+```diff filename="next.config.mjs"
 - import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
 
 /** @type {import('next').NextConfig} */
@@ -116,7 +116,7 @@ const nextConfig = {};
 
 And you'll want to replace any uses of `getRequestContext` from `@cloudflare/next-on-pages` with `getCloudflareContext` from `@opennextjs/cloudflare`:
 
-```diff
+```diff filename="next.config.mjs"
 - import { getRequestContext } from "@cloudflare/next-on-pages";
 + import { getCloudflareContext } from "@opennextjs/cloudflare";
 ```

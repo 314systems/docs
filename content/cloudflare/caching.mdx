@@ -1,7 +1,7 @@
 import { Callout } from "nextra/components";
 import { Tabs } from "nextra/components";
 
-## Caching
+# Caching
 
 Next.js offers multiple ways to improve an application's performance by [caching](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#caching-data) routes and network requests. An application will try to pre-render and cache as much data as possible during build-time to reduce the amount of work required when serving a response to a user.
 
@@ -31,9 +31,9 @@ This guide provides guidelines for common use cases before detailing all the con
   any caching config.
 </Callout>
 
-### Guidelines
+## Guidelines
 
-#### Small site using revalidation
+### Small site using revalidation
 
 You should use the following implementation for a small site:
 
@@ -44,7 +44,7 @@ You should use the following implementation for a small site:
 <Tabs items={["wrangler.jsonc", "open-next.config.ts"]}>
 <Tabs.Tab>
 
-```jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "name": "<WORKER_NAME>",
   // ...
@@ -95,7 +95,7 @@ You should use the following implementation for a small site:
 </Tabs.Tab>
 <Tabs.Tab>
 
-```ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import d1NextTagCache from "@opennextjs/cloudflare/overrides/tag-cache/d1-next-tag-cache";
@@ -120,14 +120,14 @@ export default defineCloudflareConfig({
 </Tabs.Tab>
 </Tabs>
 
-#### Large site using revalidation
+### Large site using revalidation
 
 For a larger site, you should use the `ShardedDOTagCache` that can handle a higher load than the `D1NextModeTagCache`:
 
 <Tabs items={["wrangler.jsonc", "open-next.config.ts"]}>
 <Tabs.Tab>
 
-```jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "name": "<WORKER_NAME>",
   // ...
@@ -182,7 +182,7 @@ For a larger site, you should use the `ShardedDOTagCache` that can handle a high
 </Tabs.Tab>
 <Tabs.Tab>
 
-```ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-cache/regional-cache";
@@ -221,14 +221,14 @@ export default defineCloudflareConfig({
 </Tabs.Tab>
 </Tabs>
 
-#### SSG site
+### SSG site
 
 If your site is static, you do not need a Queue nor a Tag Cache. You can use a read-only Workers Static Assets-based incremental cache for the prerendered routes.
 
 <Tabs items={["open-next.config.ts"]}>
 <Tabs.Tab>
 
-```ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import staticAssetsIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/static-assets-incremental-cache";
 
@@ -241,13 +241,13 @@ export default defineCloudflareConfig({
 </Tabs.Tab>
 </Tabs>
 
-#### Staging
+### Staging
 
 For staging, when your site receives low traffic from a single IP, you can replace the DO queue with a memory queue.
 
-### References
+## References
 
-#### Static Assets Caching
+### Static Assets Caching
 
 <Callout type="info">
   The worker doesn't run **in front** of static assets, so the `headers` option of `next.config.ts` doesn't
@@ -263,7 +263,7 @@ Next.js also generates _immutable_ files that don't change between builds. Those
   Cache-Control: public,max-age=31536000,immutable
 ```
 
-#### Incremental Static Regeneration (ISR)
+### Incremental Static Regeneration (ISR)
 
 There are 3 storage options for the incremental cache:
 
@@ -274,20 +274,19 @@ There are 3 storage options for the incremental cache:
 <Tabs items={["R2 Object Storage", "Workers KV", "Workers Static Assets"]}>
 <Tabs.Tab>
 
-##### 1. Create an R2 Bucket
+#### 1. Create an R2 Bucket
 
 ```sh
 npx wrangler@latest r2 bucket create <YOUR_BUCKET_NAME>
 ```
 
-##### 2. Add the R2 Bucket and Service Binding to your Worker
+#### 2. Add the R2 Bucket and Service Binding to your Worker
 
 The binding name used in your app's worker is `NEXT_INC_CACHE_R2_BUCKET`. The service binding should be a self reference to your worker where `<WORKER_NAME>` is the name in your wrangler configuration file.
 
 The prefix used by the R2 bucket can be configured with the `NEXT_INC_CACHE_R2_PREFIX` environment variable, and defaults to `incremental-cache`.
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   // ...
   "name": "<WORKER_NAME>",
@@ -306,7 +305,7 @@ The prefix used by the R2 bucket can be configured with the `NEXT_INC_CACHE_R2_P
 }
 ```
 
-##### 3. Configure the cache
+#### 3. Configure the cache
 
 In your project's OpenNext config, enable the R2 cache.
 
@@ -322,8 +321,7 @@ Additionally there are options you can use to customize the behavior of the regi
 - `shouldLazilyUpdateOnCacheHit`: Instructs the cache to be lazily updated, meaning that when requesting data from the cache, a background request is sent to the R2 bucket to get the latest entry. This is enabled by default for the `long-lived` mode.
 - `bypassTagCacheOnCacheHit`: Instructs the cache not to check the tag cache when there is a regional cache hit. This enables reducing response times. When this option is used you need to make sure that the cache gets correctly purged either by enabling the [automatic cache purge](#automatic-cache-purge) or purging the cache manually. Defaults to `false`.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-cache/regional-cache";
@@ -366,8 +364,7 @@ The `WORKER_SELF_REFERENCE` service binding should be a self reference to your w
 
 The prefix used by the cache keys can be configured with the `NEXT_INC_CACHE_KV_PREFIX` environment variable, and defaults to `incremental-cache`.
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   // ...
   "name": "<WORKER_NAME>",
@@ -390,8 +387,7 @@ The prefix used by the cache keys can be configured with the `NEXT_INC_CACHE_KV_
 
 In your project's OpenNext config, enable the KV cache.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
 // ...
@@ -414,8 +410,7 @@ export default defineCloudflareConfig({
 
 In your project's OpenNext config, enable the static assets cache.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import staticAssetsIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/static-assets-incremental-cache";
 
@@ -427,7 +422,7 @@ export default defineCloudflareConfig({
 </Tabs.Tab>
 </Tabs>
 
-#### Queue
+### Queue
 
 A queue must be setup for projects using Time-Based revalidation.
 It is not needed when revalidation is not used nor only On-Demand revalidation is used.
@@ -439,8 +434,7 @@ In your project's OpenNext config, enable the cache and set up a queue.
 The Durable Object Queue will send revalidation requests to a page when needed, and offers support for de-duplicating requests.
 By default there will be a maximum of 10 instance of the Durables Object Queue and they can each process up to 5 requests in parallel, for up to 50 concurrent ISR revalidations.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 // ...
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
@@ -455,7 +449,7 @@ export default defineCloudflareConfig({
 
 You will also need to add some binding to your `wrangler.jsonc` file.
 
-```jsonc
+```jsonc filename="wrangler.jsonc"
 "durable_objects": {
     "bindings": [
       {
@@ -490,13 +484,11 @@ You can customize the behaviors of the queue with environment variables:
   production. It only works in preview mode (i.e. `wrangler dev`)
 
   For apps using the Page Router, `res.revalidate` requires to provide a self reference service binding named `WORKER_SELF_REFERENCE`.
-
 </Callout>
 
 In certain situations, you may encounter the limits of what the Durable Object queue can manage for a single page or route. In such cases, you can utilize the queueCache to minimize the number of stale requests sent to the queue. This is achieved by adding and verifying a cache entry via the Cache API before dispatching a request to the queue. If a cache entry already exists, the request will not be sent to the queue, as it will be considered already in process.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 // ...
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
@@ -517,7 +509,7 @@ export default defineCloudflareConfig({
 });
 ```
 
-#### Tag Cache for On-Demand Revalidation
+### Tag Cache for On-Demand Revalidation
 
 The tag revalidation mechanism can use either a [Cloudflare D1](https://developers.cloudflare.com/d1/) database or [Durable Objects](https://developers.cloudflare.com/durable-objects/) with `SqliteStorage` as its backing store for information about tags, paths, and revalidation times.
 
@@ -543,8 +535,7 @@ If either of these factors is significant, opting for a sharded database is reco
 
 The binding name used in your app's worker is `NEXT_TAG_CACHE_D1`. The `WORKER_SELF_REFERENCE` service binding should be a self reference to your worker where `<WORKER_NAME>` is the name in your wrangler configuration file.
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   // ...
   "d1_databases": [
@@ -571,8 +562,7 @@ The D1 tag cache requires a `revalidations` table that tracks On-Demand revalida
 
 In your project's OpenNext config, enable the R2 cache and set up a queue (see above). The queue will send a revalidation request to a page when needed, but it will not dedupe requests.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
@@ -598,8 +588,7 @@ To populate remote bindings and create a new [version](https://developers.cloudf
 
 The service binding should be a self reference to your worker where `<WORKER_NAME>` is the name in your wrangler configuration file.
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   // ...
   "durable_objects": {
@@ -633,8 +622,7 @@ The service binding should be a self reference to your worker where `<WORKER_NAM
 
 In your project's OpenNext config, enable the R2 cache and set up a queue.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
@@ -661,16 +649,17 @@ doShardedTagCache takes the following options:
 - `maxWriteRetries`: The number of retries to perform when writing tags
 
 </Tabs.Tab>
+
 <Tabs.Tab>
 <Callout>
   The `withFilter` option is a specialized configuration that enhances your `tagCache` by layering an additional filter. It requires another tag cache to be passed in as the tagCache (e.g., `d1NextTagCache`, `doShardedTagCache` or your own).
 </Callout>
+
 This enhanced tag cache selectively filters which tags trigger revalidations, allowing you to focus on a specific subset and reduce unnecessary load on the underlying tag cache. For convenience, we provide the ready-to-use `softTagFilter` that automatically filters out tags used by the `revalidatePath` function making it a no-op.
 
 Its primary purpose is to filter out soft tags (i.e., those used by `revalidatePath`) from the tag cache, which are not relevant for your application. It could also be used to filter out hard tags (i.e., those you define in your app) if one of your dependencies uses them.
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
@@ -688,16 +677,13 @@ export default defineCloudflareConfig({
 ```
 
 You can also create your own custom filter function. This function must return a boolean value indicating whether a tag should be included. It will be invoked with a single tag (as a string) as its argument. Please note that "soft tags" (i.e., those used by revalidatePath) always start with the prefix `_N_T`.
-
 </Tabs.Tab>
 </Tabs>
 
 #### Automatic Cache Purge
 
 <Callout>
-
 You can only enable cache purge functionality on a zone (e.g., when using a custom domain).
-
 </Callout>
 
 The cache purge component automatically clears the cache when a page is revalidated. It is only necessary if you use On-Demand revalidation along with one of the cache components that leverage the Cache API.
@@ -713,7 +699,7 @@ To use cache purge, you need to define the following wrangler secrets:
 
 Below is an example configuration for integrating the cache purge component in your `open-next.config.ts`:
 
-```ts
+```ts filename="open-next.config.ts"
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
 import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-cache/regional-cache";
@@ -735,7 +721,7 @@ export default defineCloudflareConfig({
 
 If you want to use the durable object option, you will need to add the following binding to your `wrangler.jsonc` file:
 
-```jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "durable_objects": {
     "bindings": [
@@ -754,10 +740,10 @@ If you want to use the durable object option, you will need to add the following
 }
 ```
 
-You can customize the duration of the cache purge buffering with the `NEXT_CACHE_DO_PURGE_BUFFER_TIME_IN_SECONDS` environment variable. The default is 5 seconds. It works by buffering the purge requests for a given amount of time and then sending them all at once. This is useful to avoid hitting the API rate limits.
+You can customize the duration of the cache purge buffering with the `NEXT_CACHE_DO_PURGE_BUFFER_TIME_IN_SECONDS` environment variable.The default is 5 seconds. It works by buffering the purge requests for a given amount of time and then sending them all at once. This is useful to avoid hitting the API rate limits.
 
 ### Debugging
 
 You can add `NEXT_PRIVATE_DEBUG_CACHE=1` to your app `.env` file to debug any cache issue.
 The app will output logs whenever the cache is accessed - those logs are generated by both Next and the cache adapter.
-You can find more details in [the Next documentation](https://nextjs.org/docs/app/guides/incremental-static-regeneration#verifying-correct-production-behavior)
+You can find more details in [the Next documentation](https://nextjs.org/docs/app/guides/incremental-static-regeneration#verifying-correct-production-behavior).

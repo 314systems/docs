@@ -1,7 +1,13 @@
-{
+import type { MetaRecord } from "nextra"
+
+const meta: MetaRecord = {
   "routing": "Routing Layer",
   "caching": "Caching (ISR/SSG)",
   "cache_interception": "Optional Cache Interception",
   "components": "Main Components",
   "architecture": "Default Architecture"
 }
+
+
+export default meta
+

@@ -1,0 +1,8 @@
+{
+"frontMatter.git.enabled": false,
+"frontMatter.content.pageFolders": [
+    {
+        "path": "[[workspace]]/content"
+    }
+]
+}

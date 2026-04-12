@@ -1,17 +1,20 @@
+---
+sidebarTitle: Image Optimization
+---
+
 import { Callout } from "nextra/components";
 
-## Image Optimization
+# Image Optimization
 
 Next.js has a builtin [`<Image>` component](https://nextjs.org/docs/pages/building-your-application/optimizing/images) to automatically optimize your images for faster page loads. To enable image optimization, you must either define an image binding or use a custom loader.
 
-### Use a Cloudflare Images binding
+## Use a Cloudflare Images binding
 
 The Cloudflare adapter provides a Next.js-compatible image optimization API using [Cloudflare Images](https://developers.cloudflare.com/images/) that can be [configured with `next.config.js`](https://nextjs.org/docs/app/api-reference/components/image#configuration-options).
 
 The `IMAGES` binding must be defined to enable image optimization:
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "images": {
     "binding": "IMAGES",
@@ -21,13 +24,13 @@ The `IMAGES` binding must be defined to enable image optimization:
 
 Image optimization can incur additional costs. See [Cloudflare Images pricing](https://developers.cloudflare.com/images/pricing/) for details.
 
-#### Compatibility notes
+### Compatibility notes
 
 - Only PNG, JPEG, WEBP, AVIF, GIF, and SVG are supported. Unsupported images will be returned unchanged without optimization.
 - [`minimumCacheTTL` configuration](https://nextjs.org/docs/app/api-reference/components/image#minimumcachettl) is not supported. All assets (static, local, or remote) are handled as either immutable (cache forever) or not. Except for the `immutable` attribute, it does not respect the cache behavior set by the `Cache-Control` header for non-static images.
 - [`dangerouslyAllowLocalIP` configuration](https://nextjs.org/docs/app/api-reference/components/image#dangerouslyallowlocalip) is not supported. Local IP addresses are always allowed if the URL is allowed by the `remotePatterns` configuration.
 
-### Use a custom loader
+## Use a custom loader
 
 You first need to [enable Cloudflare Images](https://developers.cloudflare.com/images/get-started/#enable-transformations-on-your-zone) for your zone.
 
@@ -37,8 +40,7 @@ You then need to configure your Next application to use a custom loader for Clou
 
 Create an `image-loader.ts` at the root of your application:
 
-```ts
-// image-loader.ts
+```ts filename="image-loader.ts"
 import type { ImageLoaderProps } from "next/image";
 
 const normalizeSrc = (src: string) => {
@@ -67,8 +69,7 @@ export default function cloudflareLoader({ src, width, quality }: ImageLoaderPro
 
 You will then need to update your app configuration to use this loader:
 
-```ts
-// next.config.ts
+```ts filename="next.config.ts"
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

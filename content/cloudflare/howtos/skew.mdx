@@ -1,6 +1,10 @@
+---
+sidebarTitle: Skew protection
+---
+
 import { Callout } from "nextra/components";
 
-## Skew protection
+# Skew protection
 
 The Cloudflare adapter has _experimental support_ for skew protection based on [the preview URLs](https://developers.cloudflare.com/workers/configuration/previews/).
 
@@ -10,14 +14,13 @@ The Cloudflare adapter has _experimental support_ for skew protection based on [
   Durable Objects, they will need to be implemented in a separate Worker.
 </Callout>
 
-### How to enable the skew protection
+## How to enable the skew protection
 
-**OpenNext config**
+### OpenNext config
 
 Set `cloudflare.skewProtection.enabled` to `true` to enable skew protection:
 
-```ts
-// open-next.config.ts
+```ts filename="open-next.config.ts"
 export default {
   // ...
   cloudflare: {
@@ -34,12 +37,11 @@ export default {
 } satisfies OpenNextConfig;
 ```
 
-**Wrangler configuration**
+### Wrangler configuration
 
 The Worker needs to serve the correct version of the app assets. For that it need be be executed before incoming requests are matched against the assets. Set [`run_worker_first`](https://developers.cloudflare.com/workers/static-assets/binding/#run_worker_first) to `true` in your wrangler configuration to enable this behavior:
 
-```jsonc
-// wrangler.jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "name": "my-app",
   // ...
@@ -52,7 +54,7 @@ The Worker needs to serve the correct version of the app assets. For that it nee
 }
 ```
 
-**Environment variables**
+### Environment variables
 
 The following environment variables should be set when the skew protection is used:
 
@@ -66,14 +68,13 @@ Those variables are used to retrieve the past deployments of your application.
 Note that in this context, environment variables include both your local [Cloudflare environment variables](https://developers.cloudflare.com/workers/configuration/environment-variables/)
 and the process' environment variables. If a variable is set in both places, the process environment variable will take precedence.
 
-**Next config**
+### Next.js config
 
 You must set a different `deploymentId` in your next config each time your app is deployed. You will get an error if the `deploymentId` has already been used by a previous deployment.
 
 The cloudflare adapter exports a `getDeploymentId()` function that can be used to generate a unique deployment id.
 
-```ts
-// next.config.ts
+```ts filename="next.config.ts"
 import { getDeploymentId } from "@opennextjs/cloudflare";
 
 const nextConfig = {
@@ -82,7 +83,7 @@ const nextConfig = {
 };
 ```
 
-### What you should know
+## What you should know
 
 - Because the Worker is configured to run in front of the assets Worker (`run_worker_first`), requesting an asset will count as a request to your Worker
 - Requesting an older deployment will generate 2 requests: the request to the latest version and the request to the older version

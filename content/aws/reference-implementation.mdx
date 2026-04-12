@@ -1,16 +1,22 @@
+---
+sidebarTitle: Reference implementation
+---
+
 import { Callout } from "nextra/components";
+
+# Reference Implementation
 
 In order to help deploying OpenNext with your own IAC implementation, we created a simple reference implementation using aws-cdk.
 
 If you wish to use it, just copy the code for the construct below. If you use it inside sst, make sure to use the same version of aws-cdk as sst.
 
 <Callout type="warning" emoji="⚠️">
-
 This is a reference implementation, and it is not meant to be used in production as is.
 
-    This is just here to help you understand how to use the new features of OpenNext.
+This is just here to help you understand how to use the new features of OpenNext.
 
-There is some features that are not implemented like the warmer function, or everything related to lambda@edge(It requires inserting env variables which is out of scope of this implementation).
+There is some features that are not implemented like the warmer function, or everything related to `lambda@edge`
+(It requires inserting env variables which is out of scope of this implementation).
 
 </Callout>
 

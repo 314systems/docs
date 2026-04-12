@@ -1,3 +1,9 @@
+---
+sidebarTitle: Tag Cache
+---
+
+# Tag Cache
+
 This override is used by the [`cache` adapter](https://github.com/opennextjs/opennextjs-aws/blob/main/packages/open-next/src/adapters/cache.ts) that is provided by OpenNext to the NextServer. It is also used by OpenNext if `enableCacheInterception` is set to `true` in the configuration and by the `initializationFunction` for prepopulating the cache.
 
 It is used for the cache tags (i.e. `revalidateTag` and `revalidatePath`). It does not handle anything related to the ISR/SSG cache or the fetch cache used by Next.js.

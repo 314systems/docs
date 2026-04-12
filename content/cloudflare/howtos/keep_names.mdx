@@ -1,6 +1,10 @@
+---
+sidebarTitle: __name issues
+---
+
 import { Callout } from "nextra/components";
 
-## `__name` issues
+# `__name` issues
 
 When using the OpenNext adapter, Wrangler processes the worker's code with [esbuild](https://esbuild.github.io/), and by default
 enables the [`keep-names`](https://esbuild.github.io/api/#keep-names) option. While this is generally useful for debugging, it can
@@ -18,11 +22,11 @@ Uncaught ReferenceError: __name is not defined
   error message less clear and potentially not explicitly mentioning `__name` in such cases.
 </Callout>
 
-### How to fix such issues
+## How to fix such issues
 
 To fix the issue you can simply set the `keep_names` option to `false` in your [`wrangler.jsonc` file](https://developers.cloudflare.com/workers/wrangler/configuration), like in the following example:
 
-```jsonc
+```jsonc filename="wrangler.jsonc"
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",

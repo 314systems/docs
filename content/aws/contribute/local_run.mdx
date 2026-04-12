@@ -1,4 +1,12 @@
-When making some changes to OpenNext, it can be a bit cumbersome to need to deploy every time you want to test changes. If your change is not dependent on the wrapper or the converter, then you can create a custom `open-next.config.ts` file (you can use another name so that it doesn't conflict with your existing `open-next.config.ts`).
+---
+sidebarTitle: Run locally
+---
+
+# Run locally
+
+When making some changes to OpenNext, it can be a bit cumbersome to need to deploy every time you want to test changes.
+
+If your change is not dependent on the wrapper or the converter, then you can create a custom `open-next.config.ts` file (you can use another name so that it doesn't conflict with your existing `open-next.config.ts`).
 
 To run `OpenNext` locally:
 
@@ -9,10 +17,9 @@ node /path/to/opennextjs-aws/packages/open-next/dist/index.js build --config-pat
 node .open-next/server-functions/default/index.mjs
 ```
 
-### open-next.local.config.ts
+## `open-next.local.config.ts`
 
-```typescript
-// open-next.local.config.ts -
+```ts filename="open-next.local.config.ts"
 // A good practice would be to use a different name so that it doesn't conflict
 // with your existing open-next.config.ts i.e. open-next.local.config.ts
 // You could also customize it by using custom overrides if you need to.

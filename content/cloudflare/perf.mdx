@@ -1,14 +1,18 @@
+---
+sidebarTitle: Performance Tips
+---
+
 import { Callout } from "nextra/components";
 
-## Performance tips
+# Performance tips
 
 They are a lot of features and knobs you can tune to improve the performance of your app. This page lists some of the recommend settings.
 
-### General
+## General
 
 You should regularly update to the latest available version of [`@opennextjs/cloudflare`](https://www.npmjs.com/package/@opennextjs/cloudflare) to benefit from the latest performance and security updates.
 
-### Caching
+## Caching
 
 Caching can drastically improves the performance of your application by only fetching data / re-generating your pages when they change.
 
@@ -16,7 +20,7 @@ To get the most out of caching, you should start by reading how Next.js implemen
 
 You should then check [how to configure caching](/cloudflare/caching) for the OpenNext adapter. See below for some advice.
 
-#### [Incremental Cache](/cloudflare/caching#incremental-static-regeneration-isr)
+### [Incremental Cache](/cloudflare/caching#incremental-static-regeneration-isr)
 
 The Incremental cache is the store containing all the cached data (i.e. pages, `fetch`, `unstable_cache`).
 
@@ -34,7 +38,7 @@ When your app uses re-validation, use the R2 based store instead. We recommend t
   indefinitely
 </Callout>
 
-#### [Tag Cache](/cloudflare/caching#tag-cache-for-on-demand-revalidation)
+### [Tag Cache](/cloudflare/caching#tag-cache-for-on-demand-revalidation)
 
 The Tag Cache is not properly a cache. It only stores the timestamp at which tags have been revalidated.
 
@@ -44,27 +48,27 @@ The D1 based tag cache should only be used if your site receives low traffic. Th
 
 Application using `revalidateTag` exclusively (and not `revalidatePath`) will benefit from using the `withFilter` wrapper with the `softTagFilter` filter.
 
-#### [Static Assets](/cloudflare/caching#static-assets-caching)
+### [Static Assets](/cloudflare/caching#static-assets-caching)
 
 You should add a `public/_headers` file to cache the static assets served by your app.
 
 See the [Cloudflare documentation](https://developers.cloudflare.com/workers/static-assets/headers/) for a detailed explanation of the default and the syntax.
 
-### [Multiple Workers](https://opennext.js.org/cloudflare/howtos/multi-worker)
+## [Multiple Workers](https://opennext.js.org/cloudflare/howtos/multi-worker)
 
 Deploying the middleware and the main server to distinct Workers can help with performance. As when a page can be retrieved from the cache, the main server can be fully bypassed.
 
-### Troubleshooting performance
+## Troubleshooting performance
 
 You can profile the code to troubleshoot performance issues.
 
-#### Building unminified code
+### Building unminified code
+
+#### `next.config.js`
 
 Code profiles are much easier to read when the code is not minified, you can use the following settings to generate unminified code
 
-**next.config.ts**
-
-```ts
+```ts filename="next.config.ts"
 const nextConfig = {
   // ...
   experimental: {
@@ -77,7 +81,7 @@ const nextConfig = {
 };
 ```
 
-**CLI**
+#### CLI
 
 Use the `--noMinify` option when building the app:
 
@@ -85,7 +89,7 @@ Use the `--noMinify` option when building the app:
 opennextjs-cloudflare build --noMinify
 ```
 
-#### Record a profile
+### Record a profile
 
 You should first launch a local version of your application by running
 

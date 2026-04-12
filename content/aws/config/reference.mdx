@@ -1,3 +1,9 @@
+---
+sidebarTitle: Reference
+---
+
+# Reference
+
 Every option that you can use in `open-next.config.ts` will be listed here. This is the configuration file that you can use to customize the build.
 You can look at the [full example](full_example) to see how you can use these options.
 
@@ -81,7 +87,7 @@ Each server config will be under it's own key in the config object. Here are all
 
       Here is an example of how to install sharp on your default server function with ARM64 architecture:
 
-      ```ts
+      ```ts filename="open-next.config.ts"
       import type { OpenNextConfig } from '@opennextjs/aws/types/open-next';
       const config = {
       default: {
@@ -308,7 +314,7 @@ By default, the middleware headers and cookies will override the handler headers
 This is executed for every request and after next config headers and middleware has executed.
 Here is a very simple example of how you can use it:
 
-```ts
+```ts filename="open-next.config.ts"
 // In this case, if the request starts with /api, the middleware headers and cookies will take precedence otherwise the handler headers and cookies will take precedence
 headersAndCookiesPriority: (event) => {
   if (event.rawPath.startsWith('/api')) {
